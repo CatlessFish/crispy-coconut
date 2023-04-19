@@ -12,6 +12,10 @@ node_modules
 # production
 /build
 
+# cordova for Android build
+/CrispyCoconut
+.env.production
+
 # misc
 .DS_Store
 .env.local
