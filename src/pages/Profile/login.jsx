@@ -1,7 +1,8 @@
 import { Card, Tabs, Form, Input, Button, Dialog, Toast } from "antd-mobile";
 import { EyeInvisibleOutline, EyeOutline } from "antd-mobile-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../utils/userContext";
 
 import api from "../../api/api";
 
@@ -26,12 +27,16 @@ function LoginForm() {
     const [visible, setVisible] = useState(false);
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    const user = useContext(UserContext); // user是全局状态，结构为{token, setToken}，在App.jsx中定义
 
     const onLogin = (values) => {
         api.userLogin(values).then(res => {
             // 这里的res由后端返回
-            // const token = res.data;
+            // 保存token到全局状态
+            const token = res.data;
             // console.log(token);
+            user.setToken(token)
+
             form.resetFields();
             Toast.show('登录成功', 1000);
             navigate('/profile');
