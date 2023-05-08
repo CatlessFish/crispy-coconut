@@ -48,6 +48,7 @@ const onApiCallSuccess = (res) => {
     return response
 }
 
+// This function is used to reject the promise when 'assertParam' throws an error.
 const rejectOnParamError = (error) => Promise.reject({
     code: 1,
     error_msg: 'API call unsuccessful, see console for details',
@@ -214,6 +215,58 @@ const wallUpdatePostInEntry = async (userToken, data) => {
         .then(onApiCallSuccess);
 }
 
+/*
+ * APIs of MsgBox
+ */
+
+const msgBoxGetMsgBoxByOwnerId = async (userToken, data) => {
+
+}
+
+const msgBoxGetMsgBoxById = async (userToken, data) => {
+
+}
+
+const msgBoxCreateOneMsgBox = async (userToken, data) => {
+
+}
+
+const msgBoxUpdateOneMsgBox = async (userToken, data) => {
+
+}
+
+const msgBoxDeleteMsgBoxById = async (userToken, data) => {
+
+}
+
+const msgBoxGetAllEntriesInMsgBox = async (userToken, data) => {
+
+}
+
+const msgBoxCreateOneEntryInMsgBox = async (userToken, data) => {
+
+}
+
+const msgBoxDeleteOneEntryInMsgBox = async (userToken, data) => {
+
+}
+
+const msgBoxGetAllPostsInMsgBoxEntry = async (userToken, data) => {
+
+}
+
+const msgBoxCreateOnePostInMsgBoxEntry = async (userToken, data) => {
+
+}
+
+const msgBoxDeleteOnePostInMsgBoxEntry = async (userToken, data) => {
+
+}
+
+const msgBoxUpdateOnePostInMsgBoxEntry = async (userToken, data) => {
+
+}
+
 const API = {
     userLogin,
     userRegister,
@@ -224,7 +277,19 @@ const API = {
     wallGetAllPostsInEntry,
     wallAddPostToEntry,
     wallDeletePostInEntry,
-    wallUpdatePostInEntry
+    wallUpdatePostInEntry,
+    msgBoxGetMsgBoxByOwnerId,
+    msgBoxGetMsgBoxById,
+    msgBoxCreateOneMsgBox,
+    msgBoxUpdateOneMsgBox,
+    msgBoxDeleteMsgBoxById,
+    msgBoxGetAllEntriesInMsgBox,
+    msgBoxCreateOneEntryInMsgBox,
+    msgBoxDeleteOneEntryInMsgBox,
+    msgBoxGetAllPostsInMsgBoxEntry,
+    msgBoxCreateOnePostInMsgBoxEntry,
+    msgBoxDeleteOnePostInMsgBoxEntry,
+    msgBoxUpdateOnePostInMsgBoxEntry
 }
 
 export default API

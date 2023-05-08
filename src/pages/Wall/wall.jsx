@@ -4,6 +4,7 @@ import API from "../../api/api";
 import { UserContext } from "../../utils/userContext";
 
 function Wall () {
+    // TODO: 先登录后查看，否则跳转到登录页面
     const user = useContext(UserContext);
     const [entries, setEntries] = useState([]);
 
