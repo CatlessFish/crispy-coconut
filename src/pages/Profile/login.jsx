@@ -33,7 +33,8 @@ function LoginForm() {
         api.userLogin(values).then(res => {
             // 这里的res由后端返回
             // 保存token到全局状态
-            const token = res.data;
+            console.log(res);
+            const { token } = res.data;
             // console.log(token);
             user.setToken(token)
 
@@ -44,7 +45,7 @@ function LoginForm() {
             console.log(err);
             Dialog.alert({
                 title: '登录失败',
-                content: err.message
+                content: err.error_msg
             })
         })
     }
@@ -94,7 +95,7 @@ function RegisterForm() {
             console.log(err);
             Dialog.alert({
                 title: '注册失败',
-                content: err.message
+                content: err.error_msg
             })
         })
     }

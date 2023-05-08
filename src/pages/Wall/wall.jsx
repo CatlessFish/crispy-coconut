@@ -12,6 +12,9 @@ function Wall () {
             console.log(res);
             setEntries(res.data);
         })
+        .catch(err => {
+            console.log(err);
+        })
     }, [user.token])
 
     const handleCreateEntry = () => {
@@ -20,12 +23,18 @@ function Wall () {
             console.log('创建了一条帖子', res);
             setEntries([...entries, res.data])
         })
+        .catch(err => {
+            console.log(err);
+        })
     }
 
     const handleDeleteEntry = (id) => {
         API.wallDeleteOneEntry(user.token, {wallEntryId: id}).then(res => {
             console.log('删除了一条帖子', res);
             setEntries(entries.filter(entry => entry._id !== id));
+        })
+        .catch(err => {
+            console.log(err);
         })
     }
 
