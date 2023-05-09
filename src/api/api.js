@@ -55,22 +55,41 @@ const rejectOnParamError = (error) => Promise.reject({
     data: error
 });
 
+// TODO: Split this file into multiple files, one for each module
+// TODO: 把API的参数类型写成注解
+
 /*
 * APIs of USER
 */
 
+/**
+ * 
+ * @param {object} data { username: String, password: String}
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const userLogin = async (data) => {
     return serverAxios.post("/user/login", data)
         .catch(onApiCallFailure)
         .then(onApiCallSuccess);
 }
 
+/**
+ * 
+ * @param {object} data { username: String, password: String, email?: String | Null}
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const userRegister = async (data) => {
     return serverAxios.post("/user/register", data)
         .catch(onApiCallFailure)
         .then(onApiCallSuccess);
 }
 
+/**
+ * 
+ * @param {string} userToken 
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ * @deprecated
+ */
 const userGetAll = async () => {
     return serverAxios.get("/user/getAll")
         .catch(onApiCallFailure)
@@ -81,6 +100,11 @@ const userGetAll = async () => {
  * APIs of WALL 
 */
 
+/**
+ * 
+ * @param {string} userToken 
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const wallGetAllEntries = async (userToken) => {
     try {
         assertParam('userToken', userToken, 'string')
@@ -97,6 +121,13 @@ const wallGetAllEntries = async (userToken) => {
         .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { content: Object }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const wallCreateOneEntry = async (userToken, data) => {
     // data = { content: Object }
     // example: { content: { text: "Hello World" }}
@@ -117,6 +148,13 @@ const wallCreateOneEntry = async (userToken, data) => {
         .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { wallEntryId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const wallDeleteOneEntry = async (userToken, data) => {
     // data = { wallEntryId: String }
     // example: { wallEntryId: "abcdef" }
@@ -136,6 +174,13 @@ const wallDeleteOneEntry = async (userToken, data) => {
         .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { wallEntryId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const wallGetAllPostsInEntry = async (userToken, data) => {
     // data = { wallEntryId: String }
     // example: { wallEntryId: "abcdef" }
@@ -155,6 +200,13 @@ const wallGetAllPostsInEntry = async (userToken, data) => {
         .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { wallEntryId: String, content: Object }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const wallAddPostToEntry = async (userToken, data) => {
     // data = { wallEntryId: String, content: Object }
     // example: { wallEntryId: "abcdef", content: { text: "Hello World" }}
@@ -174,6 +226,13 @@ const wallAddPostToEntry = async (userToken, data) => {
         .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { wallEntryId: String, postId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const wallDeletePostInEntry = async (userToken, data) => {
     // data = { wallEntryId: String, postId: String }
     // example: { wallEntryId: "abcdef", postId: "123456" }
@@ -194,6 +253,13 @@ const wallDeletePostInEntry = async (userToken, data) => {
         .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { wallEntryId: String, postId: String, content: Object }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const wallUpdatePostInEntry = async (userToken, data) => {
     // data = { wallEntryId: String, postId: String, content: Object }
     // example: { wallEntryId: "abcdef", postId: "123456", content: { text: "Hello World" }}
@@ -215,56 +281,329 @@ const wallUpdatePostInEntry = async (userToken, data) => {
         .then(onApiCallSuccess);
 }
 
+
 /*
  * APIs of MsgBox
  */
 
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { ownerId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const msgBoxGetMsgBoxByOwnerId = async (userToken, data) => {
+    // data = { ownerId: String }
+    // example: { ownerId: "abcdef" }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('ownerId', data.ownerId, 'string')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
 
+    return serverAxios.get(`/msgBox/getMsgBoxByOwnerId?ownerId=${data.ownerId}`, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { msgBoxId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const msgBoxGetMsgBoxById = async (userToken, data) => {
+    // data = { msgBoxId: String }
+    // example: { msgBoxId: "abcdef" }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('msgBoxId', data.msgBoxId, 'string')
+    }
+    catch (error) {
+        return rejectOnParamError(error)
+    }
 
+    return serverAxios.get(`/msgBox/getMsgBoxById?msgBoxId=${data.msgBoxId}`, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { content: Object }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const msgBoxCreateOneMsgBox = async (userToken, data) => {
+    // data = { content: Object }
+    // example: { content: { description: "This is my message box" } }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('content', data.content, 'object')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
 
+    return serverAxios.post("/msgBox/createOneMsgBox", data, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { msgBoxId: String, content: Object }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const msgBoxUpdateOneMsgBox = async (userToken, data) => {
+    // data = { msgBoxId: String, content: Object }
+    // example: { msgBoxId: "abcdef", content: { description: "This is my message box" } }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('msgBoxId', data.msgBoxId, 'string')
+        assertParam('content', data.content, 'object')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
 
+    return serverAxios.post("/msgBox/updateOneMsgBox", data, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { msgBoxId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ * @deprecated
+ */
 const msgBoxDeleteMsgBoxById = async (userToken, data) => {
+    // data = { msgBoxId: String }
+    // example: { msgBoxId: "abcdef" }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('msgBoxId', data.msgBoxId, 'string')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
 
+    return serverAxios.post("/msgBox/deleteMsgBoxById", data, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { msgBoxId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const msgBoxGetAllEntriesInMsgBox = async (userToken, data) => {
+    // data = { msgBoxId: String }
+    // example: { msgBoxId: "abcdef" }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('msgBoxId', data.msgBoxId, 'string')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
 
+    return serverAxios.get(`/msgBox/getAllEntriesInMsgBox?msgBoxId=${data.msgBoxId}`, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { msgBoxId: String, content: Object }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const msgBoxCreateOneEntryInMsgBox = async (userToken, data) => {
+    // data = { msgBoxId: String, content: Object }
+    // example: { msgBoxId: "abcdef", content: { text: "This is a message box entry post" } }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('msgBoxId', data.msgBoxId, 'string')
+        assertParam('content', data.content, 'object')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
 
+    return serverAxios.post("/msgBox/createOneEntryInMsgBox", data, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { msgBoxId: String, entryId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const msgBoxDeleteOneEntryInMsgBox = async (userToken, data) => {
+    // data = { msgBoxId: String, entryId: String }
+    // example: { msgBoxId: "abcdef", entryId: "abcdef" }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('msgBoxId', data.msgBoxId, 'string')
+        assertParam('entryId', data.entryId, 'string')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
 
+    return serverAxios.post("/msgBox/deleteOneEntryInMsgBox", data, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { entryId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const msgBoxGetAllPostsInMsgBoxEntry = async (userToken, data) => {
+    // data = { entryId: String }
+    // example: { entryId: "abcdef" }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('entryId', data.entryId, 'string')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
 
+    return serverAxios.get(`/msgBox/getAllPostsInMsgBoxEntry?entryId=${data.entryId}`, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { entryId: String, content: Object }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const msgBoxCreateOnePostInMsgBoxEntry = async (userToken, data) => {
+    // data = { entryId: String, content: Object }
+    // example: { entryId: "abcdef", content: { text: "This is a message box post" } }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('entryId', data.entryId, 'string')
+        assertParam('content', data.content, 'object')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
 
+    return serverAxios.post("/msgBox/createOnePostInMsgBoxEntry", data, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
 }
 
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { entryId: String, postId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const msgBoxDeleteOnePostInMsgBoxEntry = async (userToken, data) => {
+    // data = { entryId: String, postId: String }
+    // example: { entryId: "abcdef", postId: "abcdef" }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('entryId', data.entryId, 'string')
+        assertParam('postId', data.postId, 'string')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
 
+    return serverAxios.post("/msgBox/deleteOnePostInMsgBoxEntry", data, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
 }
 
-const msgBoxUpdateOnePostInMsgBoxEntry = async (userToken, data) => {
 
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { entryId: String, postId: String, content: Object }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
+const msgBoxUpdateOnePostInMsgBoxEntry = async (userToken, data) => {
+    // data = { entryId: String, postId: String, content: Object }
+    // example: { entryId: "abcdef", postId: "abcdef", content: { text: "This is a message box post" } }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('entryId', data.entryId, 'string')
+        assertParam('postId', data.postId, 'string')
+        assertParam('content', data.content, 'object')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
+
+    return serverAxios.post("/msgBox/updateOnePostInMsgBoxEntry", data, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
 }
 
 const API = {
