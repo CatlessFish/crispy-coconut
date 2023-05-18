@@ -14,7 +14,12 @@ function App() {
     useEffect(() => {
         //相当于componentDidMount
         // TODO: 从localStorage中读取token
+        const localToken = localStorage.getItem('userToken');
+        if (localToken) {
+            setUserToken(localToken);
+        }
     }, []);
+    // console.log('token:', userToken)
 
     const location = useLocation();
     const { pathname } = location;
@@ -31,7 +36,7 @@ function App() {
             setToken: setUserToken
         }}>
             <div className="App">
-                <div className="App-Page">
+                <div className="app-body">
                     <Routes>
                         <Route index path="/home/*" Component={Home} />
                         <Route path="/wall/*" Component={Wall} />
@@ -41,12 +46,10 @@ function App() {
                         <Route path="" Component={() => <Navigate to={'/home'} />} />
                     </Routes>
                 </div>
-                <div className="App-Tabbar" style={{ position: "fixed", bottom: 0, left: 0, right: 0 }}>
-                    <AppTabBar
-                        pathname={pathname}
-                        onChange={handleTabBarChange}
-                    />
-                </div>
+                <AppTabBar
+                    pathname={pathname}
+                    onChange={handleTabBarChange}
+                />
             </div>
         </UserContext.Provider>
     );

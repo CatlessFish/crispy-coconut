@@ -56,7 +56,6 @@ const rejectOnParamError = (error) => Promise.reject({
 });
 
 // TODO: Split this file into multiple files, one for each module
-// TODO: 把API的参数类型写成注解
 
 /*
 * APIs of USER
@@ -606,6 +605,36 @@ const msgBoxUpdateOnePostInMsgBoxEntry = async (userToken, data) => {
         .then(onApiCallSuccess);
 }
 
+/*
+ * APIs of Post
+ */
+
+/**
+ * 
+ * @param {string} userToken
+ * @param {object} data { postId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ * @description Get one post by post id
+ */
+const postGetOnePostById = async (userToken, data) => {
+    // data = { postId: String }
+    // example: { postId: "abcdef" }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('postId', data.postId, 'string')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
+
+    return serverAxios.get(`/post/getOnePostById?postId=${data.postId}`, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
+}
+
 const API = {
     userLogin,
     userRegister,
@@ -628,7 +657,8 @@ const API = {
     msgBoxGetAllPostsInMsgBoxEntry,
     msgBoxCreateOnePostInMsgBoxEntry,
     msgBoxDeleteOnePostInMsgBoxEntry,
-    msgBoxUpdateOnePostInMsgBoxEntry
+    msgBoxUpdateOnePostInMsgBoxEntry,
+    postGetOnePostById
 }
 
 export default API

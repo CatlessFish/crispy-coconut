@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../utils/userContext";
 
 import api from "../../api/api";
+import BackButton from "../../components/backButton";
 
 function LoginPage() {
     return (
         <>
+            <BackButton />
             <Card>
                 <Tabs>
                     <Tabs.Tab title="登录" key={'Login'}>
@@ -37,6 +39,8 @@ function LoginForm() {
             const { token } = res.data;
             // console.log(token);
             user.setToken(token)
+            // TODO: 设置token过期时间
+            localStorage.setItem('userToken', token);
 
             form.resetFields();
             Toast.show('登录成功', 1000);
