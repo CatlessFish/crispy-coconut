@@ -1,13 +1,16 @@
 import { Card, Tabs, Form, Input, Button, Dialog, Toast } from "antd-mobile";
 import { EyeInvisibleOutline, EyeOutline } from "antd-mobile-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../utils/userContext";
 
 import api from "../../api/api";
+import BackButton from "../../components/backButton";
 
 function LoginPage() {
     return (
         <>
+            <BackButton />
             <Card>
                 <Tabs>
                     <Tabs.Tab title="登录" key={'Login'}>
@@ -26,12 +29,19 @@ function LoginForm() {
     const [visible, setVisible] = useState(false);
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    const user = useContext(UserContext); // user是全局状态，结构为{token, setToken}，在App.jsx中定义
 
     const onLogin = (values) => {
         api.userLogin(values).then(res => {
             // 这里的res由后端返回
-            // const token = res.data;
+            // 保存token到全局状态
+            console.log(res);
+            const { token } = res.data;
             // console.log(token);
+            user.setToken(token)
+            // TODO: 设置token过期时间
+            localStorage.setItem('userToken', token);
+
             form.resetFields();
             Toast.show('登录成功', 1000);
             navigate('/profile');
@@ -39,7 +49,7 @@ function LoginForm() {
             console.log(err);
             Dialog.alert({
                 title: '登录失败',
-                content: err.message
+                content: err.error_msg
             })
         })
     }
@@ -89,7 +99,7 @@ function RegisterForm() {
             console.log(err);
             Dialog.alert({
                 title: '注册失败',
-                content: err.message
+                content: err.error_msg
             })
         })
     }
