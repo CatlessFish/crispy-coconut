@@ -1,10 +1,12 @@
 import { TabBar } from "antd-mobile";
 import { 
-    CompassOutline, 
-    FlagOutline,
+    // CompassOutline, 
+    // FlagOutline,
     MailOpenOutline,
     UserOutline,
-    MessageOutline
+    MessageOutline,
+    HeartOutline,
+    SmileOutline,
 } from "antd-mobile-icons";
 import "./tabbar.scss"
 
@@ -12,13 +14,13 @@ const AppTabBar = (props) => {
     const items = [
         {
             key: '/home',
-            title: '首页',
-            icon: <CompassOutline />,
+            title: '广场',
+            icon: <SmileOutline />,
         },
         {
             key:'/wall',
             title: '表白墙',
-            icon: <FlagOutline />,
+            icon: <HeartOutline />,
         },
         {
             key:'/msgBox',
