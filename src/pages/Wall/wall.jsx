@@ -35,7 +35,7 @@ function Wall () {
         // setEntries(val => [...val, ...append])
         setHasMore(false)
         }
-
+        
     return (
         <>
             <Space style={{ '--gap': '190px' }}>
