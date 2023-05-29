@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const config = {
-    baseURL: "http://47.103.52.38:5000/api/",
+    // baseURL: "http://47.103.52.38:5000/api/",
+    baseURL: "https://coco.catlessfish.cc/api/",
     // baseURL: "http://localhost:3000/api/",
     timeout: 1000,
     headers: {
