@@ -49,7 +49,7 @@ function Wall () {
                 </div>
                 } />
                 <Route path="detail">
-                    <Route path=":wallEntryId" Component={() => 
+                    <Route path=":wallEntryId/*" Component={() => 
                         <WallEntryDetail
                             entries={entries}
                             setEntries={setEntries}

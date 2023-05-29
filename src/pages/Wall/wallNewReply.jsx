@@ -22,7 +22,7 @@ function WallNewReply (props) {
         .catch(err => {
             console.log(err);
         })
-        navigate(`/wall`)
+        navigate(`/wall/detail/${props.id}`)
       };
 
     return (

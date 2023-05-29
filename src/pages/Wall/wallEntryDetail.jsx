@@ -47,7 +47,7 @@ function WallEntryDetail (props) {
         // .catch(err => {
         //     console.log(err);
         // })
-        navigate(`/wall/detail/newReply`)
+        navigate(`/wall/detail/${id}/newReply`)
     }
 
     const right = (
@@ -80,6 +80,7 @@ function WallEntryDetail (props) {
                 } />
                 <Route path="newReply" Component={() => 
                     <WallNewReply
+                        id={wallEntryId}
                         posts={posts}
                         setPosts={setPosts}
                     />
