@@ -1,16 +1,21 @@
 // import { Route, Routes } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useNavigate } from "react-router-dom"
 import API from "../../api/api";
 import { UserContext } from "../../utils/userContext";
 import WallEntryDetail from "./wallEntryDetail";
+import WallNewEntry from "./wallNewEntry";
 import WallEntryCard from "../../components/wallEntryCard";
+import { Space, InfiniteScroll } from 'antd-mobile'
 import "./wall.scss"
+import { AddCircleOutline } from 'antd-mobile-icons'
 
 function Wall () {
     // TODO: 先登录后查看，否则跳转到登录页面
     const user = useContext(UserContext);
     const [entries, setEntries] = useState([]);
+    const [hasMore, setHasMore] = useState(true)
+    const navigate = useNavigate();
 
     useEffect(() => {
         API.wallGetAllEntries(user.token).then(res => {
@@ -22,51 +27,53 @@ function Wall () {
         })
     }, [user.token])
 
-    const handleCreateEntry = () => {
-        const text = '一条创建于' + new Date().toLocaleString() + '的测试帖子';
-        API.wallCreateOneEntry(user.token, {content: {text}}).then(res => {
-            console.log('创建了一条帖子', res);
-            setEntries([...entries, res.data])
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    }
+    const handleCreateEntry = () => 
+        navigate(`/wall/newEntry/`);
 
-    // eslint-disable-next-line
-    const handleDeleteEntry = (id) => {
-        API.wallDeleteOneEntry(user.token, {wallEntryId: id}).then(res => {
-            console.log('删除了一条帖子', res);
-            setEntries(entries.filter(entry => entry._id !== id));
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    }
+    async function loadMore() {
+        // const append = ?
+        // setEntries(val => [...val, ...append])
+        setHasMore(false)
+        }
 
     return (
         <>
-            <h1>Wall</h1>
+            <Space style={{ '--gap': '190px' }}>
+                <h1>今日表白墙</h1> 
+                <h1><AddCircleOutline onClick={handleCreateEntry} fontSize={36}/></h1>
+            </Space>
             <Routes>
                 <Route path="" Component={() => 
-                <div className="wall-entry-list">
-                    <button onClick={handleCreateEntry}>创建一条测试帖子</button>
-                    {entries.map(entry => (
-                        // <div key={entry._id}>
-                        //     <span>ID: {entry._id}</span>
-                        //     <button onClick={() => handleDeleteEntry(entry._id)}>删除</button>
-                        // </div>
-                        <WallEntryCard 
-                            key={entry._id}
-                            entry={entry}
-                        />
-                    ))}
-                </div>
+                <>
+                    <div className="wall-entry-list">
+                        {entries.slice().reverse().map(entry => (
+                            <WallEntryCard 
+                                key={entry._id}
+                                entry={entry}
+                            />
+
+                        ))}
+                    </div>
+                    <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
+                </>
                 } />
                 <Route path="detail">
-                    <Route path=":wallEntryId" Component={WallEntryDetail} />
+                    <Route path=":wallEntryId/*" Component={() => 
+                        <WallEntryDetail
+                            entries={entries}
+                            setEntries={setEntries}
+                        />
+                    } />
                     <Route path="*" Component={<h1>404</h1>}/>
                 </Route>
+
+                <Route path="newEntry" Component={() => 
+                    <WallNewEntry
+                        entries={entries}
+                        setEntries={setEntries}
+                    />
+                } />
+                
             </Routes>
         </>
     )

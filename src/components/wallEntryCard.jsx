@@ -4,7 +4,7 @@ import { Card } from "antd-mobile";
 
 import API from "../api/api";
 import { UserContext } from "../utils/userContext";
-import "./postCard.scss";
+import "./Card.scss";
 
 function WallEntryCard(props) {
     // console.log(props)
@@ -23,7 +23,7 @@ function WallEntryCard(props) {
         })
     }, [props.entry, user.token])
 
-    //TODO
+    //TODO: delivery the whole entry
     const handleClickOnEntry = () => navigate(`/wall/detail/${entry._id}`);
 
     return (
@@ -39,6 +39,7 @@ function WallEntryCard(props) {
             <div className="post-card-body__time">
                 {entry.initialPostData?.updatedAt}
             </div>
+                
         </Card>
     );
 }

@@ -1,0 +1,80 @@
+.post-card {
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid #bbb;
+    overflow: hidden;
+    margin: 10px 0 10px 0;
+    padding: 10px 0 10px 0;
+    height: 100px;
+    width: 90%;
+
+    &-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+        padding: 0 10px 0 10px;
+
+        &__title {
+            width: 90%;
+            margin-top: 20px;
+            max-height: 60px;
+            overflow-y: hidden;
+            font-size: 1.1rem;
+            color: #444;
+            text-align: center;
+        }
+
+        &__time {
+            width: 90%;
+            font-size: 0.8rem;
+            color: #999;
+            text-align: left;
+        }
+    }
+}
+
+.msgbox-card {
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid #bbb;
+    overflow: hidden;
+    margin: 10px 0 10px 0;
+    padding: 10px 0 10px 0;
+    height: 100px;
+    width: 90%;
+    // display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    &-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+        padding: 0 10px 0 10px;
+
+        &__title {
+            // width: 90%;
+            margin-top: 20px;
+            max-height: 60px;
+            overflow-y: hidden;
+            font-size: 1.1rem;
+            color: #444;
+            text-align: center;
+        }
+
+        &__time {
+            width: 90%;
+            font-size: 0.8rem;
+            color: #999;
+            text-align: left;
+        }
+    }
+}
