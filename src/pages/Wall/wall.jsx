@@ -6,7 +6,7 @@ import { UserContext } from "../../utils/userContext";
 import WallEntryDetail from "./wallEntryDetail";
 import WallNewEntry from "./wallNewEntry";
 import WallEntryCard from "../../components/wallEntryCard";
-import { Space } from 'antd-mobile'
+import { Space, InfiniteScroll } from 'antd-mobile'
 import "./wall.scss"
 import { AddCircleOutline } from 'antd-mobile-icons'
 
@@ -14,6 +14,7 @@ function Wall () {
     // TODO: 先登录后查看，否则跳转到登录页面
     const user = useContext(UserContext);
     const [entries, setEntries] = useState([]);
+    const [hasMore, setHasMore] = useState(true)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,6 +30,11 @@ function Wall () {
     const handleCreateEntry = () => 
         navigate(`/wall/newEntry/`);
 
+    async function loadMore() {
+        // const append = ?
+        // setEntries(val => [...val, ...append])
+        setHasMore(false)
+        }
 
     return (
         <>
@@ -38,15 +44,18 @@ function Wall () {
             </Space>
             <Routes>
                 <Route path="" Component={() => 
-                <div className="wall-entry-list">
-                    {entries.slice().reverse().map(entry => (
-                        <WallEntryCard 
-                            key={entry._id}
-                            entry={entry}
-                        />
+                <>
+                    <div className="wall-entry-list">
+                        {entries.slice().reverse().map(entry => (
+                            <WallEntryCard 
+                                key={entry._id}
+                                entry={entry}
+                            />
 
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                    <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
+                </>
                 } />
                 <Route path="detail">
                     <Route path=":wallEntryId/*" Component={() => 

@@ -1,6 +1,6 @@
 import { Card } from "antd-mobile";
 
-import "./postCard.scss";
+import "./Card.scss";
 
 function WallPostCard(props) {
     const { post } = props;

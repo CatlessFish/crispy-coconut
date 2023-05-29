@@ -95,6 +95,26 @@ const userGetAll = async () => {
         .then(onApiCallSuccess);
 }
 
+/**
+ * 
+ * @param {string} userToken 
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
+const userGetProfile = async (userToken) => {
+    try {
+        assertParam('userToken', userToken, 'string')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
+    return serverAxios.get("/user/profile", {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
+}
+
 /* 
  * APIs of WALL 
 */
@@ -638,6 +658,7 @@ const postGetOnePostById = async (userToken, data) => {
 const API = {
     userLogin,
     userRegister,
+    userGetProfile,
     userGetAll,
     wallGetAllEntries,
     wallCreateOneEntry,

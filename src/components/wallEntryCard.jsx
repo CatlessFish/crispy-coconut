@@ -4,7 +4,7 @@ import { Card } from "antd-mobile";
 
 import API from "../api/api";
 import { UserContext } from "../utils/userContext";
-import "./postCard.scss";
+import "./Card.scss";
 
 function WallEntryCard(props) {
     // console.log(props)

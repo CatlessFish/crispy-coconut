@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 
 import API from "../../api/api";
-import BackButton from "../../components/backButton";
+import BackButtonByPath from "../../components/backButtonByPath";
 import WallPostCard from "../../components/wallPostCard";
 import { UserContext } from "../../utils/userContext";
 import "./wall.scss"
@@ -40,13 +40,6 @@ function WallEntryDetail (props) {
     }
 
     const handleReply = (id) => {
-        // API.wallAddPostToEntry(user.token, {wallEntryId: id, content: {text:'123'}}).then(res => {
-        //     console.log('增加了一条回复', res);
-        //     setPosts([...posts, res.data])
-        // })
-        // .catch(err => {
-        //     console.log(err);
-        // })
         navigate(`/wall/detail/${id}/newReply`)
     }
 
@@ -60,7 +53,8 @@ function WallEntryDetail (props) {
       )
     
       const back = (
-            <BackButton />
+
+            <BackButtonByPath path="/wall" />
       )
 
     return (

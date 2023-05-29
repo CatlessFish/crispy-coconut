@@ -18,11 +18,11 @@ function WallNewReply (props) {
         API.wallAddPostToEntry(user.token, {wallEntryId: props.id, content: {text}}).then(res => {
             console.log('增加了一条回复', res);
             props.setPosts([...props.posts, res.data])
+            navigate(`/wall/detail/${props.id}`)
         })
         .catch(err => {
             console.log(err);
         })
-        navigate(`/wall/detail/${props.id}`)
       };
 
     return (
