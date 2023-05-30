@@ -67,7 +67,11 @@ function WallEntryDetail (props) {
                     </NavBar>
                     <div className="wall-entry-post-list">
                         {posts.map(post => (
-                            <WallPostCard key={post._id} post={post} />
+                            <WallPostCard 
+                                key={post._id} 
+                                entryId={wallEntryId} 
+                                post={post} 
+                            />
                         ))}
                     </div>
                 </div>

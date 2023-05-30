@@ -19,6 +19,7 @@ function MsgBox () {
     const [visibleUpdate, setVisibleUpdate] = useState(false)
     const [visibleAdd, setVisibleAdd] = useState(false)
     const location = useLocation();
+    const [hasMore, setHasMore] = useState(true);
     let text, flush = 0;
 
     useEffect(() => {
@@ -52,7 +53,11 @@ function MsgBox () {
         };
     }, [user_id, user.token, flush])
 
-
+    async function loadMore() {
+        // const append = ?
+        // setEntries(val => [...val, ...append])
+        setHasMore(false)
+        }
 
     const handle = () => {
         
@@ -159,7 +164,7 @@ function MsgBox () {
                         ))}
                     </div>
 
-                    {/* <InfiniteScroll loadMore={loadMore} hasMore={hasMore} /> */}
+                    <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
                 </>
                 } />
                 <Route path="detail">

@@ -35,6 +35,7 @@ function MsgboxEntryCard(props) {
         >
             <div className="post-card-body__title">
                     {entry.initialPostData?.content?.description}
+                    {entry.initialPostData?.content?.text}
             </div>
             <div className="post-card-body__time">
                 {entry.initialPostData?.updatedAt}

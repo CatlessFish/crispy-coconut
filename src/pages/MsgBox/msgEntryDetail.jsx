@@ -72,7 +72,11 @@ function MsgboxEntryDetail (props) {
                     </NavBar>
                     <div className="msgbox-post-list">
                         {posts.map(post => (
-                            <MsgboxPostCard key={post._id} post={post} />
+                            <MsgboxPostCard 
+                                key={post._id} 
+                                entryId={msgboxEntryId} 
+                                post={post}
+                            />
                         ))}
                     </div>
                 </div>
