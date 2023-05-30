@@ -645,7 +645,6 @@ const postGetOnePostById = async (userToken, data) => {
     } catch (error) {
         return rejectOnParamError(error)
     }
-
     return serverAxios.get(`/post/getOnePostById?postId=${data.postId}`, {
         headers: {
             'Authorization': `Bearer ${userToken}`

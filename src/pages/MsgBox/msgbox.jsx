@@ -1,12 +1,13 @@
 import React from 'react'
 import { useContext, useEffect, useState } from "react";
 import { Card, Toast, Button, InfiniteScroll, List, Space, Popup, Input} from 'antd-mobile'
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { Route, Routes, useNavigate, useLocation  } from "react-router-dom"
 import './msgbox.scss'
 import { UserContext } from "../../utils/userContext";
 import API from "../../api/api";
 import "../../components/Card.scss";
 import MsgboxEntryCard from "../../components/msgboxEntryCard";
+import MsgboxEntryDetail from './msgEntryDetail';
 
 function MsgBox () {
     const user = useContext(UserContext);
@@ -17,6 +18,8 @@ function MsgBox () {
     const [user_id, setUserId] = useState('');
     const [visibleUpdate, setVisibleUpdate] = useState(false)
     const [visibleAdd, setVisibleAdd] = useState(false)
+    const location = useLocation();
+    const [hasMore, setHasMore] = useState(true);
     let text, flush = 0;
 
     useEffect(() => {
@@ -24,7 +27,6 @@ function MsgBox () {
             console.debug('setUserID', res);
             setUserId(res.data._id);
             API.msgBoxGetMsgBoxByOwnerId(user.token, {ownerId: res.data._id}).then(_res => {
-                console.log(_res.data)
                 setMsgbox(_res.data)
                 API.msgBoxGetAllEntriesInMsgBox(user.token, {msgBoxId: _res.data._id}).then(res => {
                     console.debug('Entries in the msgbox', res);
@@ -35,13 +37,27 @@ function MsgBox () {
                 })
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
+                API.msgBoxCreateOneMsgBox(user.token, {content:{ description: "这是你的提问箱，快来更新描述吧~" }})
+                .then(res => {
+                    flush++;
+                }
+                )
             })
         })
         .catch(err => {
             console.log(err);
         })
-    }, [user_id, user.token])
+        return () => {
+            setEntries([]);
+        };
+    }, [user_id, user.token, flush])
+
+    async function loadMore() {
+        // const append = ?
+        // setEntries(val => [...val, ...append])
+        setHasMore(false)
+        }
 
     const handle = () => {
         
@@ -68,7 +84,6 @@ function MsgBox () {
         })
         setVisibleAdd(false)
     }
-
     return (
     <>
         <Space style={{ '--gap': '28px'}}>
@@ -140,7 +155,7 @@ function MsgBox () {
                         </div>
                     </Card>
                     
-                    <div className="wall-entry-list">
+                    <div className="msgbox-entry-list">
                         {entries.slice().reverse().map(entry => (
                             <MsgboxEntryCard 
                                 key={entry._id}
@@ -149,17 +164,18 @@ function MsgBox () {
                         ))}
                     </div>
 
-                    {/* <InfiniteScroll loadMore={loadMore} hasMore={hasMore} /> */}
+                    <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
                 </>
                 } />
                 <Route path="detail">
-                    {/* <Route path=":wallEntryId/*" Component={() => 
-                        <WallEntryDetail
+                    <Route path=":msgboxEntryId/*" Component={() => 
+                        <MsgboxEntryDetail
+                            msgboxId={msgbox._id}
                             entries={entries}
                             setEntries={setEntries}
                         />
                     } />
-                    <Route path="*" Component={<h1>404</h1>}/> */}
+                    <Route path="*" Component={<h1>404</h1>}/>
                 </Route>
 
                 {/* <Route path="newEntry" Component={() => 

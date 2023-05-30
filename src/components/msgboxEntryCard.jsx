@@ -20,7 +20,7 @@ function MsgboxEntryCard(props) {
         })
         .catch(err => {
             console.log(err);
-        })
+        })  
     }, [props.entry, user.token])
 
     //TODO: delivery the whole entry
@@ -34,7 +34,8 @@ function MsgboxEntryCard(props) {
             bodyClassName="post-card-body"
         >
             <div className="post-card-body__title">
-                    {entry.initialPostData?.content.description}
+                    {entry.initialPostData?.content?.description}
+                    {entry.initialPostData?.content?.text}
             </div>
             <div className="post-card-body__time">
                 {entry.initialPostData?.updatedAt}

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../utils/userContext";
 
 
-function WallPostCard(props) {
+function MsgboxPostCard(props) {
     const { entryId, post } = props;
     const user = useContext(UserContext);
     const [visible, setVisible] = useState(false)
@@ -19,11 +19,11 @@ function WallPostCard(props) {
 
     const handlePostUpdate = () => {
         setVisible(false)
-        API.wallUpdatePostInEntry(user.token, {wallEntryId: entryId, postId: post._id, content:{text: text } })
+        API.msgBoxUpdateOnePostInMsgBoxEntry(user.token, {entryId: entryId, postId: post._id, content:{description: text}})
         .then( res => {
             navigate(`/loading`)
             setTimeout(() => {
-                navigate(`/wall/detail/${entryId}`)
+                navigate(`/msgbox/detail/${entryId}`)
             }, 1000);
         })
     }
@@ -33,11 +33,11 @@ function WallPostCard(props) {
     };
 
     const handlePostDelete = () => {
-        API.wallDeletePostInEntry(user.token, {wallEntryId: entryId, postId: post._id})
+        API.msgBoxDeleteOnePostInMsgBoxEntry(user.token, {entryId: entryId, postId: post._id})
         .then( res => {
             navigate(`/loading`)
             setTimeout(() => {
-                navigate(`/wall/detail/${entryId}`)
+                navigate(`/msgbox/detail/${entryId}`)
             }, 1000);
         })
         .catch( err => {
@@ -65,6 +65,7 @@ function WallPostCard(props) {
             ],
             })
       }
+
     return (
     <>
         <Card
@@ -74,10 +75,11 @@ function WallPostCard(props) {
             onClick={onClick}
         >
             <div className="post-card-body__title">
-                    {post.content.text}
+                    {post?.content?.description}
+                    {post?.content?.text}
             </div>
             <div className="post-card-body__time">
-                {post.updatedAt}
+                {post?.updatedAt}
             </div>
         </Card>
         <Popup
@@ -99,4 +101,4 @@ function WallPostCard(props) {
     );
 }
 
-export default WallPostCard;
+export default MsgboxPostCard;
