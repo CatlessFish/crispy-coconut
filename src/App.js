@@ -6,7 +6,9 @@ import Wall from "./pages/Wall/wall";
 import MsgBox from "./pages/MsgBox/msgbox";
 import Profile from "./pages/Profile/profile";
 import Message from "./pages/Message/message";
+import _Loading from "./pages/Loading/loading";
 import { UserContext } from "./utils/userContext";
+import { Loading } from "antd-mobile";
 
 function App() {
     const [userToken, setUserToken] = useState(null);
@@ -43,6 +45,7 @@ function App() {
                         <Route path="/msgbox/*" Component={MsgBox} />
                         <Route path="/message/*" Component={Message} />
                         <Route path="/profile/*" Component={Profile} />
+                        <Route path="/loading/*" Component={_Loading} />
                         <Route path="" Component={() => <Navigate to={'/home'} />} />
                     </Routes>
                 </div>
