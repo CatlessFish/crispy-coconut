@@ -41,6 +41,7 @@ function LoginForm() {
             user.setToken(token)
             // TODO: 设置token过期时间
             localStorage.setItem('userToken', token);
+            user.setIsLoggedIn(true);
 
             form.resetFields();
             Toast.show('登录成功', 1000);

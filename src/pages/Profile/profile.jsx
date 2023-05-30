@@ -9,18 +9,20 @@ import API from "../../api/api";
 function Profile () {
     const navigate = useNavigate();
     const user = useContext(UserContext);
-    const login_flag = Object.keys(user) === 0 ? false : true;
+    const login_flag = user?.token !== undefined && user?.token !== null;
     const [profile, setProfile] = useState()
 
     useEffect(() => {
-        API.userGetProfile(user.token).then(res => {
-            console.debug('Entries in the wall', res);
-            setProfile(res.data);
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    }, [user.token])
+        if (user.isLoggedIn) {
+            API.userGetProfile(user.token).then(res => {
+                console.debug('Entries in the wall', res);
+                setProfile(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
+    }, [user])
     // console.log(profile)
     return (
         <>

@@ -5,6 +5,7 @@ import Home from "./pages/Home/home";
 import Wall from "./pages/Wall/wall";
 import MsgBox from "./pages/MsgBox/msgbox";
 import Profile from "./pages/Profile/profile";
+import Login from "./pages/Profile/login";
 import Message from "./pages/Message/message";
 import _Loading from "./pages/Loading/loading";
 import { UserContext } from "./utils/userContext";
@@ -12,6 +13,11 @@ import { Loading } from "antd-mobile";
 
 function App() {
     const [userToken, setUserToken] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const location = useLocation();
+    const { pathname } = location;
+    const navigate = useNavigate();
 
     useEffect(() => {
         //相当于componentDidMount
@@ -19,13 +25,10 @@ function App() {
         const localToken = localStorage.getItem('userToken');
         if (localToken) {
             setUserToken(localToken);
+            setIsLoggedIn(true);
         }
     }, []);
-    // console.log('token:', userToken)
-
-    const location = useLocation();
-    const { pathname } = location;
-    const navigate = useNavigate();
+    console.debug('local token:', userToken)
 
     const handleTabBarChange = (value) => {
         // console.log(value);
@@ -35,26 +38,34 @@ function App() {
     return (
         <UserContext.Provider value={{
             token: userToken,
-            setToken: setUserToken
+            setToken: setUserToken,
+            isLoggedIn: isLoggedIn,
+            setIsLoggedIn: setIsLoggedIn
         }}>
-            <div className="App">
-                <div className="app-body">
-                    <Routes>
-                        <Route index path="/home/*" Component={Home} />
-                        <Route path="/wall/*" Component={Wall} />
-                        <Route path="/msgbox/*" Component={MsgBox} />
-                        <Route path="/message/*" Component={Message} />
-                        <Route path="/profile/*" Component={Profile} />
-                        <Route path="/loading/*" Component={_Loading} />
-                        <Route path="" Component={() => <Navigate to={'/home'} />} />
-                    </Routes>
-                </div>
-                <AppTabBar
-                    pathname={pathname}
-                    onChange={handleTabBarChange}
-                />
-            </div>
+            {
+                isLoggedIn ?
+                    <div className="App">
+                        <div className="app-body">
+                            <Routes>
+                                <Route index path="/home/*" Component={Home} />
+                                <Route path="/wall/*" Component={Wall} />
+                                <Route path="/msgbox/*" Component={MsgBox} />
+                                <Route path="/message/*" Component={Message} />
+                                <Route path="/profile/*" Component={Profile} />
+                                <Route path="/loading/*" Component={_Loading} />
+                                <Route path="" Component={() => <Navigate to={'/home'} />} />
+                            </Routes>
+                        </div>
+                        <AppTabBar
+                            pathname={pathname}
+                            onChange={handleTabBarChange}
+                        />
+                    </div>
+                    :
+                    <Login />
+            }
         </UserContext.Provider>
+
     );
 }
 
