@@ -654,6 +654,79 @@ const postGetOnePostById = async (userToken, data) => {
         .then(onApiCallSuccess);
 }
 
+/**
+ * 
+ * @param {string} userToken 
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
+const squareGetAll = async (userToken) => {
+    // data = { entryId: String }
+    // example: { entryId: "abcdef" }
+    try {
+        assertParam('userToken', userToken, 'string')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
+
+    return serverAxios.get(`/square/getAll`, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
+}
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { owner: String, msgBoxId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
+const squareAddOne = async (userToken, data) => {
+    // data = { owner: String, msgBoxId: String }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('owner', data.owner, 'string')
+        assertParam('msgBoxId', data.msgBoxId, 'string')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
+
+    return serverAxios.post("/square/addOne", data, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
+}
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { squareEntryId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
+const squareDeleteOne = async (userToken, data) => {
+    // data = { owner: String, msgBoxId: String }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('squareEntryId', data.squareEntryId, 'string')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
+
+    return serverAxios.post("/square/deleteOne", data, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
+}
+
+
 const API = {
     userLogin,
     userRegister,
@@ -678,7 +751,10 @@ const API = {
     msgBoxCreateOnePostInMsgBoxEntry,
     msgBoxDeleteOnePostInMsgBoxEntry,
     msgBoxUpdateOnePostInMsgBoxEntry,
-    postGetOnePostById
+    postGetOnePostById,
+    squareGetAll,
+    squareAddOne,
+    squareDeleteOne
 }
 
 export default API

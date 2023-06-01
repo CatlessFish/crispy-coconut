@@ -1,6 +1,6 @@
 import React from 'react'
 import { useContext, useEffect, useState } from "react";
-import { Card, Toast, Button, InfiniteScroll, List, Space, Popup, Input} from 'antd-mobile'
+import { Card, Toast, Button, InfiniteScroll, List, Space, Popup, Input, Modal} from 'antd-mobile'
 import { Route, Routes, useNavigate, useLocation  } from "react-router-dom"
 import './msgbox.scss'
 import { UserContext } from "../../utils/userContext";
@@ -78,6 +78,34 @@ function MsgBox () {
         text = event;
     };
 
+    const handleSquareAdd = () => {
+        API.squareAddOne(user.token, {owner: user_id, msgBoxId: msgbox._id}).then( res => {console.log('增加了一个提问箱到广场')})
+    }
+
+    const handleSquareDelete = () => {
+    }
+
+    const onClickMsgbox = () => {
+        Modal.show({
+            content: 'Po出你的提问箱到广场或者收回',
+            closeOnAction: true,
+            showCloseButton: true,
+            actions: [
+                {
+                    key: 'add',
+                    onClick: handleSquareAdd,
+                    text: 'Po出箱子',
+                },
+                {
+                    key: 'delete',
+                    text: '收回箱子',
+                    onClick: handleSquareDelete,
+                    danger: true,
+                },
+            ],
+            })
+      }
+
     const handleAdd = () => {
         API.msgBoxCreateOneEntryInMsgBox(user.token, {msgBoxId: msgbox._id, content:{description: text}}).then( res => {
             setEntries([...entries, res.data])
@@ -146,6 +174,7 @@ function MsgBox () {
                         key={user_id}
                         className="msgbox-card"
                         bodyClassName="msgbox-card-body"
+                        onClick={onClickMsgbox}
                     >
                         <div className="msgbox-card-body__title">
                             {msgbox?.content?.description}

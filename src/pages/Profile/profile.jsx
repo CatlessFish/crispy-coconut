@@ -9,8 +9,8 @@ import API from "../../api/api";
 function Profile () {
     const navigate = useNavigate();
     const user = useContext(UserContext);
-    const login_flag = user?.token !== undefined && user?.token !== null;
     const [profile, setProfile] = useState()
+    const [login_flag, setLoginFlag] = useState(user?.token !== undefined && user?.token !== null)
 
     useEffect(() => {
         if (user.isLoggedIn) {
@@ -23,7 +23,7 @@ function Profile () {
             })
         }
     }, [user])
-    // console.log(profile)
+    console.log(login_flag)
     return (
         <>
             <Routes>
@@ -32,7 +32,7 @@ function Profile () {
                 <Space style={{ '--gap': '165px' }}>
                     <h1>用户信息</h1>
                     { login_flag ? 
-                        <Button style={{'marginTop': '15px' }} color='danger'>
+                        <Button style={{'marginTop': '15px' }} color='danger' onClick={() => setLoginFlag(false)}>
                         登出账号
                         </Button>
                     : 
