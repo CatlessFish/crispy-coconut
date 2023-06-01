@@ -35,12 +35,21 @@ function App() {
         navigate(value);
     };
 
+    const handleLogout = (value) => {
+        // 包装setIsLoggedIn，用于登出
+        if (value === true) return;
+        setIsLoggedIn(false);
+        setUserToken(null);
+        localStorage.removeItem('userToken');
+        navigate('/login');
+    };
+
     return (
         <UserContext.Provider value={{
             token: userToken,
             setToken: setUserToken,
             isLoggedIn: isLoggedIn,
-            setIsLoggedIn: setIsLoggedIn
+            setIsLoggedIn: handleLogout,
         }}>
             {
                 isLoggedIn ?
