@@ -35,21 +35,31 @@ function App() {
         navigate(value);
     };
 
-    const handleLogout = (value) => {
-        // 包装setIsLoggedIn，用于登出
-        if (value === true) return;
-        setIsLoggedIn(false);
-        setUserToken(null);
-        localStorage.removeItem('userToken');
-        navigate('/login');
+    const setLoggedIn = (value, token) => {
+        // 包装setIsLoggedIn，用于设置token
+        if (value === true) {
+            if (!token) {
+                console.error('token is null');
+                return;
+            }
+            setIsLoggedIn(true);
+            setUserToken(token);
+            // TODO: 设置token过期时间
+            localStorage.setItem('userToken', userToken);
+        } else {
+            setIsLoggedIn(false);
+            setUserToken(null);
+            localStorage.removeItem('userToken');
+            navigate('/login');
+        }
     };
 
     return (
         <UserContext.Provider value={{
             token: userToken,
-            setToken: setUserToken,
+            // setToken: setUserToken,
             isLoggedIn: isLoggedIn,
-            setIsLoggedIn: handleLogout,
+            setIsLoggedIn: setLoggedIn,
         }}>
             {
                 isLoggedIn ?

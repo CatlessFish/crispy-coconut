@@ -37,11 +37,7 @@ function LoginForm() {
             // 保存token到全局状态
             console.log(res);
             const { token } = res.data;
-            // console.log(token);
-            user.setToken(token)
-            // TODO: 设置token过期时间
-            localStorage.setItem('userToken', token);
-            user.setIsLoggedIn(true);
+            user.setIsLoggedIn(true, token);
 
             form.resetFields();
             Toast.show('登录成功', 1000);
