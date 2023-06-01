@@ -1,17 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import API from "../../api/api";
 import { UserContext } from "../../utils/userContext";
-import { Space, InfiniteScroll } from 'antd-mobile'
-import { AddCircleOutline } from 'antd-mobile-icons'
 import SquareCard from "../../components/squareCard";
 import MsgboxDetailinSquare from "./msgboxDetail";
+import { InfiniteScroll } from 'antd-mobile'
 
 function Home() {
     const user = useContext(UserContext);
     const [boxes, setBoxes] = useState([]);
-    const [hasMore, setHasMore] = useState(true)
-    const navigate = useNavigate();
+    const [hasMore, setHasMore] = useState(false)
+
+    async function loadMore() {
+        // const append = ?
+        // setEntries(val => [...val, ...append])
+        setHasMore(false)
+        }
     
     useEffect(() => {
         API.squareGetAll(user.token).then(res => {
@@ -38,7 +42,7 @@ function Home() {
 
                         ))}
                     </div>
-                    {/* <InfiniteScroll loadMore={loadMore} hasMore={hasMore} /> */}
+                    <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
                 </>
                 } />
                 <Route path="detail">

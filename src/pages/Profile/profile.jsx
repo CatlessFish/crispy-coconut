@@ -1,5 +1,4 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import Login from "./login";
 import { Space, Button, List } from 'antd-mobile'
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../utils/userContext";
@@ -34,7 +33,7 @@ function Profile () {
             })
         }
     }, [user])
-    console.log(login_flag)
+    // console.log(login_flag)
     return (
         <>
             <Routes>

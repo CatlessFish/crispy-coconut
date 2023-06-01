@@ -6,7 +6,7 @@ import API from "../api/api";
 import { UserContext } from "../utils/userContext";
 import "./Card.scss";
 
-function MsgboxEntryCard(props) {
+function MsgboxEntryCardinSquare(props) {
     // console.log(props)
     const user = useContext(UserContext);
     const [entry, setEntry] = useState(props.entry);
@@ -45,4 +45,4 @@ function MsgboxEntryCard(props) {
     );
 }
 
-export default MsgboxEntryCard;
+export default MsgboxEntryCardinSquare;

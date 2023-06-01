@@ -1,13 +1,12 @@
-import { useParams } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import API from "../../api/api";
-import BackButton from "../../components/backButton";
-import MsgboxPostCard from "../../components/msgboxPostCard";
+import BackButtonByPath from "../../components/backButtonByPath";
 import MsgboxEntryCardinSquare from "../../components/squareEntryCard";
+import MsgboxEntryDetailinSquare from "./msgboxEntryDetail";
 import { UserContext } from "../../utils/userContext";
-import { Route, Routes, useNavigate } from "react-router-dom"
-import { Button, Space, NavBar, Popup, Input, Card, InfiniteScroll } from 'antd-mobile'
-import MsgboxNewReply from "../MsgBox/msgboxNewReply";
+import { Route, Routes } from "react-router-dom"
+import { Button, Space, Popup, Input, Card, InfiniteScroll } from 'antd-mobile'
 
 
 
@@ -19,7 +18,6 @@ function MsgboxDetailinSquare (props) {
     const [entries, setEntries] = useState([]);
     const [hasMore, setHasMore] = useState(false);
     const [visibleAdd, setVisibleAdd] = useState(false)
-    const navigate = useNavigate();
     let text;
 
     useEffect(() => {
@@ -41,9 +39,6 @@ function MsgboxDetailinSquare (props) {
         setHasMore(false)
         }
 
-    const handle = () => {
-        
-    }
 
     const handleInputChangeAdd = (event) => {
         text = event;
@@ -60,39 +55,39 @@ function MsgboxDetailinSquare (props) {
     
     return (
     <>
-        <Space style={{ '--gap': '28px'}}>
-            <BackButton></BackButton>
-
-            <Space style={{ '--gap': '10px', 'marginTop': '15px' }}>
-
-            <Button
-              onClick={() => {
-                setVisibleAdd(true)
-              }}
-            >
-              给箱子主人提问
-            </Button>
-            <Popup
-              visible={visibleAdd}
-              onMaskClick={() => {
-                setVisibleAdd(false)
-              }}
-              bodyStyle={{
-                borderTopLeftRadius: '8px',
-                borderTopRightRadius: '8px',
-                minHeight: '40vh',
-              }}
-            >
-            <h2>增加一张卡片~</h2>
-            <Input placeholder='请输入内容' onChange={handleInputChangeAdd} clearable />
-            <Button onClick={handleAdd}>提交</Button>
-            </Popup>
-
-            </Space>
-        </Space>
         <Routes>
                 <Route path="" Component={() => 
                 <>
+                    <Space style={{ '--gap': '90px'}}>
+                        <BackButtonByPath path='/home'/>
+
+                        <Space style={{ '--gap': '10px', 'marginTop': '5px' }}>
+
+                        <Button
+                        onClick={() => {
+                            setVisibleAdd(true)
+                        }}
+                        >
+                        给箱子主人提问
+                        </Button>
+                        <Popup
+                        visible={visibleAdd}
+                        onMaskClick={() => {
+                            setVisibleAdd(false)
+                        }}
+                        bodyStyle={{
+                            borderTopLeftRadius: '8px',
+                            borderTopRightRadius: '8px',
+                            minHeight: '40vh',
+                        }}
+                        >
+                        <h2>增加一张卡片~</h2>
+                        <Input placeholder='请输入内容' onChange={handleInputChangeAdd} clearable />
+                        <Button onClick={handleAdd}>提交</Button>
+                        </Popup>
+
+                        </Space>
+                    </Space>
                     <Card
                         className="msgbox-card"
                         bodyClassName="msgbox-card-body"
@@ -109,6 +104,7 @@ function MsgboxDetailinSquare (props) {
                         {entries.map(entry => (
                             <MsgboxEntryCardinSquare 
                                 key={entry._id}
+                                msgBoxId={msgBoxId}
                                 entry={entry}
                             />
                         ))}
@@ -117,17 +113,15 @@ function MsgboxDetailinSquare (props) {
                     <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
                 </>
                 } />
-                {/* <Route path="detail">
-                    <Route path=":msgboxEntryId/*" Component={() => 
-                        <MsgboxEntryDetail
-                            msgboxId={msgbox._id}
-                            entries={entries}
-                            setEntries={setEntries}
-                        />
-                    } />
-                    <Route path="*" Component={<h1>404</h1>}/>
-                </Route> */}
-
+                <Route path=":msgboxEntryId/*" Component={() => 
+                    <MsgboxEntryDetailinSquare
+                        msgbox={msgbox}
+                        msgboxId={msgbox._id}
+                        entries={entries}
+                        setEntries={setEntries}
+                    />
+                } />
+                <Route path="*" Component={<h1>404</h1>}/>
                 {/* <Route path="newEntry" Component={() => 
                     <WallNewEntry
                         entries={entries}

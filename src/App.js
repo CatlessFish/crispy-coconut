@@ -9,7 +9,6 @@ import Login from "./pages/Profile/login";
 import Message from "./pages/Message/message";
 import _Loading from "./pages/Loading/loading";
 import { UserContext } from "./utils/userContext";
-import { Loading } from "antd-mobile";
 
 function App() {
     const [userToken, setUserToken] = useState(null);

@@ -726,6 +726,30 @@ const squareDeleteOne = async (userToken, data) => {
         .then(onApiCallSuccess);
 }
 
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { msgBoxId: String }
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
+const squareDeleteOneByBoxId = async (userToken, data) => {
+    // data = { owner: String, msgBoxId: String }
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('squareEntryId', data.msgBoxId, 'string')
+    } catch (error) {
+        return rejectOnParamError(error)
+    }
+
+    return serverAxios.post("/square/deleteOneByMsgBoxId", data, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
+}
+
 
 const API = {
     userLogin,
@@ -754,7 +778,8 @@ const API = {
     postGetOnePostById,
     squareGetAll,
     squareAddOne,
-    squareDeleteOne
+    squareDeleteOne,
+    squareDeleteOneByBoxId
 }
 
 export default API

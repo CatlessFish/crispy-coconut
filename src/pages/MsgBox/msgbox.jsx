@@ -1,7 +1,7 @@
 import React from 'react'
 import { useContext, useEffect, useState } from "react";
-import { Card, Toast, Button, InfiniteScroll, List, Space, Popup, Input, Modal} from 'antd-mobile'
-import { Route, Routes, useNavigate, useLocation  } from "react-router-dom"
+import { Card, Button, InfiniteScroll, Space, Popup, Input, Modal} from 'antd-mobile'
+import { Route, Routes  } from "react-router-dom"
 import './msgbox.scss'
 import { UserContext } from "../../utils/userContext";
 import API from "../../api/api";
@@ -14,11 +14,9 @@ function MsgBox () {
     const [entries, setEntries] = useState([]);
     const [msgbox, setMsgbox] = useState('');
     // const [hasMore, setHasMore] = useState(true)
-    const navigate = useNavigate();
     const [user_id, setUserId] = useState('');
     const [visibleUpdate, setVisibleUpdate] = useState(false)
     const [visibleAdd, setVisibleAdd] = useState(false)
-    const location = useLocation();
     const [hasMore, setHasMore] = useState(true);
     let text, flush = 0;
 
@@ -59,10 +57,6 @@ function MsgBox () {
         setHasMore(false)
         }
 
-    const handle = () => {
-        
-    }
-
     const handleInputChangeUpdate = (event) => {
         text = event;
     };
@@ -83,6 +77,7 @@ function MsgBox () {
     }
 
     const handleSquareDelete = () => {
+        API.squareDeleteOneByBoxId(user.token, {msgBoxId: msgbox._id}).then( res => {console.log('收回了一个提问箱从广场')})
     }
 
     const onClickMsgbox = () => {

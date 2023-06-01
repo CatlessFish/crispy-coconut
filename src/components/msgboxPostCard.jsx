@@ -7,12 +7,21 @@ import { UserContext } from "../utils/userContext";
 
 
 function MsgboxPostCard(props) {
-    const { entryId, post } = props;
+    const { entryId, post, msgBoxId, msgboxEntryId } = props;
     const user = useContext(UserContext);
     const [visible, setVisible] = useState(false)
+    const [own, setOwn] = useState(false)
+    const [userId, setUserId] = useState()
     const navigate = useNavigate()
     let text;
 
+    useEffect(() => {
+        API.userGetProfile(user.token).then(res => {
+            setUserId(res.data._id);
+            setOwn((userId === post.owner || userId === props.msgbox.owner ) ? true : false)
+        })
+    }, [msgboxEntryId, user.token, userId, post, props.msgbox])
+    // console.log(own)
     const handleInputChangeUpdate = (event) => {
         text = event;
     };
@@ -23,9 +32,10 @@ function MsgboxPostCard(props) {
         .then( res => {
             navigate(`/loading`)
             setTimeout(() => {
-                navigate(`/msgbox/detail/${entryId}`)
+                navigate(`/home/detail/${msgBoxId}/${msgboxEntryId}`)
             }, 1000);
         })
+        
     }
 
     const handlePop = () => { 
@@ -37,7 +47,7 @@ function MsgboxPostCard(props) {
         .then( res => {
             navigate(`/loading`)
             setTimeout(() => {
-                navigate(`/msgbox/detail/${entryId}`)
+                navigate(`/home/detail/${msgBoxId}/${msgboxEntryId}`)
             }, 1000);
         })
         .catch( err => {
@@ -46,24 +56,27 @@ function MsgboxPostCard(props) {
     };
 
     const onClick = () => {
-        Modal.show({
-            content: '木叶飞舞之处，火亦生生不息',
-            closeOnAction: true,
-            showCloseButton: true,
-            actions: [
-                {
-                    key: 'update',
-                    onClick: handlePop,
-                    text: '编辑',
-                },
-                {
-                    key: 'delete',
-                    text: '删除',
-                    onClick: handlePostDelete,
-                    danger: true,
-                },
-            ],
-            })
+        if (own)
+        {
+            Modal.show({
+                content: '木叶飞舞之处，火亦生生不息',
+                closeOnAction: true,
+                showCloseButton: true,
+                actions: [
+                    {
+                        key: 'update',
+                        onClick: handlePop,
+                        text: '编辑',
+                    },
+                    {
+                        key: 'delete',
+                        text: '删除',
+                        onClick: handlePostDelete,
+                        danger: true,
+                    },
+                ],
+                })
+        }
       }
 
     return (
