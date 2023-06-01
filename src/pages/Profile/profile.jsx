@@ -12,6 +12,17 @@ function Profile () {
     const [profile, setProfile] = useState()
     const [login_flag, setLoginFlag] = useState(user?.token !== undefined && user?.token !== null)
 
+    const Logout = () => {
+        user.setIsLoggedIn(false);
+        setLoginFlag(false);
+    }
+
+    const Login = () => {
+        user.setIsLoggedIn(true);
+        setLoginFlag(true);
+        navigate(`/profile`)
+    }
+    
     useEffect(() => {
         if (user.isLoggedIn) {
             API.userGetProfile(user.token).then(res => {
@@ -32,11 +43,11 @@ function Profile () {
                 <Space style={{ '--gap': '165px' }}>
                     <h1>用户信息</h1>
                     { login_flag ? 
-                        <Button style={{'marginTop': '15px' }} color='danger' onClick={() => setLoginFlag(false)}>
+                        <Button style={{'marginTop': '15px' }} color='danger' onClick={Logout}>
                         登出账号
                         </Button>
                     : 
-                        <Button style={{'marginTop': '15px' }} onClick={() => navigate(`/profile/login`)}>
+                        <Button style={{'marginTop': '15px' }} onClick={Login}>
                         登入/注册
                         </Button>
                     }
