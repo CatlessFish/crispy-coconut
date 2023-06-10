@@ -46,9 +46,6 @@ function MsgboxEntryDetail (props) {
         navigate(`/msgbox/detail/${id}/newReply`)
     }
 
-    const handle = () => {
-    }
-
     const right = (
         <div style={{ fontSize: 24 }}>
           <Space style={{ '--gap': '16px' }}>

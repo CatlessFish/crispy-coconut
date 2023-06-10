@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosConfig = {
-    baseURL: process.env.apiBaseURL || "https://coco.catlessfish.cc/api/",
+    baseURL: "https://coco.catlessfish.cc/api/",
     // baseURL: "http://catlessfish.cc:5100/api/",
     // baseURL: "http://localhost:3000/api/",
     timeout: 1000,
