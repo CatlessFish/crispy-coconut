@@ -28,7 +28,7 @@ function MsgboxEntryDetailinSquare (props) {
         })
         API.userGetProfile(user.token).then(res => {
             setUserId(res.data._id);
-            setOwn(userId === props.msgbox.owner ? true : false)
+            setOwn((userId === props.msgbox?.owner ) ? true : false)
         })
     }, [msgboxEntryId, user.token, userId, props.msgbox])
 

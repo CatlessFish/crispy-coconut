@@ -18,7 +18,7 @@ function MsgboxPostCard(props) {
     useEffect(() => {
         API.userGetProfile(user.token).then(res => {
             setUserId(res.data._id);
-            setOwn((userId === post.owner || userId === props.msgbox.owner ) ? true : false)
+            setOwn((userId === post?.owner || userId === props?.msgbox?.owner ) ? true : false)
         })
     }, [msgboxEntryId, user.token, userId, post, props.msgbox])
     // console.log(own)

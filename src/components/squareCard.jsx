@@ -16,10 +16,7 @@ function SquareCard(props) {
     useEffect(() => {
         API.msgBoxGetMsgBoxById(user.token, {msgBoxId: props.msgboxId}).then(res => {
             setMsgbox(res.data)
-            // API.msgBoxGetAllEntriesInMsgBox(user.token, {msgBoxId: props.msgboxId}).then(res => {
-            //     console.debug('Entries in the msgbox', res);
-            //     setEntries(res.data);
-            // })
+            
         })
         .catch(err => {
             console.log(err);

@@ -22,13 +22,15 @@ function MsgboxDetailinSquare (props) {
 
     useEffect(() => {
         API.msgBoxGetMsgBoxById(user.token, {msgBoxId: msgBoxId}).then(res => {
-            setMsgbox(res.data)
-            API.msgBoxGetAllEntriesInMsgBox(user.token, {msgBoxId: res.data._id}).then(res => {
-                console.debug('Entries in the msgbox', res);
-                setEntries(res.data);
-            })
-            .catch(err => {
-                console.log(err);
+            API.msgBoxGetMsgBoxByOwnerId(user.token, {ownerId: res.data.owner}).then(_res => {
+                setMsgbox(_res.data)
+                API.msgBoxGetAllEntriesInMsgBox(user.token, {msgBoxId: _res.data._id}).then(res => {
+                    console.debug('Entries in the msgbox', res);
+                    setEntries(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
             })
         })
     }, [user.token, msgBoxId])
@@ -122,12 +124,6 @@ function MsgboxDetailinSquare (props) {
                     />
                 } />
                 <Route path="*" Component={<h1>404</h1>}/>
-                {/* <Route path="newEntry" Component={() => 
-                    <WallNewEntry
-                        entries={entries}
-                        setEntries={setEntries}
-                    />
-                } /> */}
         </Routes>
     </>
     )
