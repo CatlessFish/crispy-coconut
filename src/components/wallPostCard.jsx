@@ -28,9 +28,6 @@ function WallPostCard(props) {
         })
     }
 
-    const handlePop = () => { 
-        setVisible(true);
-    };
 
     const handlePostDelete = () => {
         API.wallDeletePostInEntry(user.token, {wallEntryId: entryId, postId: post._id})
@@ -52,11 +49,6 @@ function WallPostCard(props) {
             showCloseButton: true,
             actions: [
                 {
-                    key: 'update',
-                    onClick: handlePop,
-                    text: '编辑',
-                },
-                {
                     key: 'delete',
                     text: '删除',
                     onClick: handlePostDelete,
@@ -74,7 +66,7 @@ function WallPostCard(props) {
             onClick={onClick}
         >
             <div className="post-card-body__title">
-                    {post.content.text}
+                    {post?.content?.text}
             </div>
             <div className="post-card-body__time">
                 {post.updatedAt}

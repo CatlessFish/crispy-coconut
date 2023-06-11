@@ -8,7 +8,7 @@ import WallPostCard from "../../components/wallPostCard";
 import { UserContext } from "../../utils/userContext";
 import "./wall.scss"
 import { Route, Routes, useNavigate } from "react-router-dom"
-import { Button, Space, NavBar } from 'antd-mobile'
+import { Button, Space, NavBar, Toast} from 'antd-mobile'
 import WallNewReply from "./wallNewReply";
 
 function WallEntryDetail (props) {
@@ -35,6 +35,10 @@ function WallEntryDetail (props) {
         })
         .catch(err => {
             console.log(err);
+            Toast.show({
+                icon: 'fail',
+                content: '您不是帖子的主人，无法删除哦~',
+              })
         })
         navigate(`/wall`)
     }

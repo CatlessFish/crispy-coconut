@@ -28,9 +28,9 @@ function MsgboxEntryDetailinSquare (props) {
         })
         API.userGetProfile(user.token).then(res => {
             setUserId(res.data._id);
-            setOwn((userId === props.msgbox?.owner ) ? true : false)
+            setOwn((userId === props.msgbox?.owner || userId === posts[0]?.owner) ? true : false)
         })
-    }, [msgboxEntryId, user.token, userId, props.msgbox])
+    }, [msgboxEntryId, user.token, userId, props.msgbox, posts])
 
     const handleDeleteEntry = (entryId) => {
         API.msgBoxDeleteOneEntryInMsgBox(user.token, {msgBoxId: props.msgboxId, entryId: entryId}).then(res => {
@@ -50,7 +50,7 @@ function MsgboxEntryDetailinSquare (props) {
         navigate(`/home/detail/${msgBoxId}/${msgboxEntryId}/newReply`)
     }
 
-
+    // console.log(posts[0])
     const right = (
         <div style={{ fontSize: 24 }}>
         {own ?
@@ -59,7 +59,7 @@ function MsgboxEntryDetailinSquare (props) {
             <Button onClick={() => handleReply(msgboxEntryId)}>回复</Button>
             </Space>
         :
-            <Button onClick={() => handleReply(msgboxEntryId)}>回复</Button>
+            <></>
         }
           
         </div>
