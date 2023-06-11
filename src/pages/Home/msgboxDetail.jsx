@@ -99,17 +99,19 @@ function MsgboxDetailinSquare (props) {
 
                         </Space>
                     </Space>
-                    <Card
-                        className="msgbox-card"
-                        bodyClassName="msgbox-card-body"
-                    >
-                        <div className="msgbox-card-body__title">
-                            {msgbox?.content?.description}
-                        </div>
-                        <div className="msgbox-card-body__time">
-                            {msgbox?.updatedAt}  
-                        </div>
-                    </Card>
+                    <div className="msgbox-entry-list">
+                        <Card
+                            className="msgbox-card"
+                            bodyClassName="msgbox-card-body"
+                        >
+                            <div className="msgbox-card-body__title">
+                                {msgbox?.content?.description}
+                            </div>
+                            <div className="msgbox-card-body__time">
+                                {msgbox?.updatedAt}  
+                            </div>
+                        </Card>
+                    </div>
                     
                     <div className="msgbox-entry-list">
                         {entries.map(entry => (

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../utils/userContext";
 
 
-function MsgboxPostCard(props) {
+function SquarePostCard(props) {
     const { entryId, post, msgBoxId, msgboxEntryId } = props;
     const user = useContext(UserContext);
     const [visible, setVisible] = useState(false)
@@ -32,7 +32,7 @@ function MsgboxPostCard(props) {
         .then( res => {
             navigate(`/loading`)
             setTimeout(() => {
-                navigate(`/msgbox/detail/${entryId}`)
+                navigate(`/home/detail/${msgBoxId}/${msgboxEntryId}`)
             }, 1000);
         })
         
@@ -47,7 +47,7 @@ function MsgboxPostCard(props) {
         .then( res => {
             navigate(`/loading`)
             setTimeout(() => {
-                navigate(`/msgbox/detail/${entryId}`)
+                navigate(`/home/detail/${msgBoxId}/${msgboxEntryId}`)
             }, 1000);
         })
         .catch( err => {
@@ -114,4 +114,4 @@ function MsgboxPostCard(props) {
     );
 }
 
-export default MsgboxPostCard;
+export default SquarePostCard;

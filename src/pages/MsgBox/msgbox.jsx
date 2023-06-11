@@ -8,6 +8,7 @@ import API from "../../api/api";
 import "../../components/Card.scss";
 import MsgboxEntryCard from "../../components/msgboxEntryCard";
 import MsgboxEntryDetail from './msgEntryDetail';
+import "./module.css"
 
 function MsgBox () {
     const user = useContext(UserContext);
@@ -113,15 +114,16 @@ function MsgBox () {
     }
     return (
     <>
-        <Space style={{ '--gap': '28px'}}>
+        <Space style={{ '--gap': '14px'}}>
             <h1>我的提问箱</h1>
 
-            <Space style={{ '--gap': '10px', 'marginTop': '15px' }}>
+            <Space style={{ '--gap': '10px', 'marginTop': '10px' }}>
 
             <Button
               onClick={() => {
                 setVisibleUpdate(true)
               }}
+              f
             >
               更新描述
             </Button>
@@ -169,19 +171,21 @@ function MsgBox () {
         <Routes>
                 <Route path="" Component={() => 
                 <>
-                    <Card
-                        key={user_id}
-                        className="msgbox-card"
-                        bodyClassName="msgbox-card-body"
-                        onClick={onClickMsgbox}
-                    >
-                        <div className="msgbox-card-body__title">
-                            {msgbox?.content?.description}
-                        </div>
-                        <div className="msgbox-card-body__time">
-                            {msgbox?.updatedAt}  
-                        </div>
-                    </Card>
+                    <div className="msgbox-entry-list">
+                        <Card
+                            key={user_id}
+                            className="msgbox-card"
+                            bodyClassName="post-card-body"
+                            onClick={onClickMsgbox}
+                        >
+                            <div className="post-card-body__title">
+                                {msgbox?.content?.description}
+                            </div>
+                            <div className="post-card-body__time">
+                                {msgbox?.updatedAt}  
+                            </div>
+                        </Card>
+                    </div>
                     
                     <div className="msgbox-entry-list">
                         {entries.slice().reverse().map(entry => (

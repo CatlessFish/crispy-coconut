@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import API from "../../api/api";
 import BackButtonByPath from "../../components/backButtonByPath";
-import MsgboxPostCard from "../../components/msgboxPostCard";
+import SquarePostCard from "../../components/squarePostCard";
 import { UserContext } from "../../utils/userContext";
 import { Route, Routes, useNavigate } from "react-router-dom"
 import { Button, Space, NavBar } from 'antd-mobile'
@@ -79,7 +79,7 @@ function MsgboxEntryDetailinSquare (props) {
                     </NavBar>
                     <div className="msgbox-post-list">
                         {posts.map(post => (
-                            <MsgboxPostCard 
+                            <SquarePostCard 
                                 key={post._id} 
                                 entryId={msgboxEntryId} 
                                 msgBoxId={msgBoxId}
