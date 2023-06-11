@@ -22,7 +22,7 @@ function App() {
         //相当于componentDidMount
         // TODO: 从localStorage中读取token
         const localToken = localStorage.getItem('userToken');
-        if (localToken) {
+        if (localToken && localToken !== 'null') {
             setUserToken(localToken);
             setIsLoggedIn(true);
         }
@@ -52,6 +52,8 @@ function App() {
             navigate('/login');
         }
     };
+
+    console.log('isLoggedIn:', isLoggedIn)
 
     return (
         <UserContext.Provider value={{
