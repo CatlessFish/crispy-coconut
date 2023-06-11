@@ -100,6 +100,29 @@ const userGetAll = async () => {
  * @param {string} userToken 
  * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
  */
+const userGetNameById = async (userToken, data) => {
+    try {
+        assertParam('userToken', userToken, 'string')
+        assertParam('userId', data.userId, 'string')
+    }
+    catch (error) {
+        return rejectOnParamError(error)
+    }
+    return serverAxios.get(`/user/getUserById?userId=${data.userId}`, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`
+        }
+    })
+        .catch(onApiCallFailure)
+        .then(onApiCallSuccess);
+}
+
+/**
+ * 
+ * @param {string} userToken 
+ * @param {object} data { userId: string}
+ * @returns A promise of API call result, which is in the format of { code: x, error_msg: "xxx", data: xxx }
+ */
 const userGetProfile = async (userToken) => {
     try {
         assertParam('userToken', userToken, 'string')
@@ -755,6 +778,7 @@ const API = {
     userLogin,
     userRegister,
     userGetProfile,
+    userGetNameById,
     userGetAll,
     wallGetAllEntries,
     wallCreateOneEntry,

@@ -4,7 +4,7 @@ import {
     // FlagOutline,
     MailOpenOutline,
     UserOutline,
-    MessageOutline,
+    // MessageOutline,
     HeartOutline,
     SmileOutline,
 } from "antd-mobile-icons";
@@ -27,11 +27,11 @@ const AppTabBar = (props) => {
             title: '提问箱',
             icon: <MailOpenOutline />,
         },
-        {
-            key:'/message',
-            title: '消息',
-            icon: <MessageOutline />,
-        },
+        // {
+        //     key:'/message',
+        //     title: '消息',
+        //     icon: <MessageOutline />,
+        // },
         {
             key:'/profile',
             title: '我的',

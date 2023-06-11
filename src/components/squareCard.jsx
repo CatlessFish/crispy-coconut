@@ -11,16 +11,23 @@ function SquareCard(props) {
     const user = useContext(UserContext);
     const navigate = useNavigate()
     const [msgbox, setMsgbox] = useState('');
+    const [userName, setUserName] = useState('');
 
 
     useEffect(() => {
         API.msgBoxGetMsgBoxById(user.token, {msgBoxId: props.msgboxId}).then(res => {
             setMsgbox(res.data)
-            
+            API.userGetNameById(user.token, {userId: res.data.owner}).then(_res => {
+                setUserName(_res.data.username)
+            })
+            .catch(err => {
+                console.log(err);
+            })   
         })
         .catch(err => {
             console.log(err);
-        })  
+        }) 
+        
     }, [props.msgboxId, user.token])
 
     const handleClickOnBox = () => navigate(`/home/detail/${props.msgboxId}`);
@@ -36,7 +43,7 @@ function SquareCard(props) {
                     {msgbox?.content?.description}
             </div>
             <div className="post-card-body__time">
-                {msgbox?.owner}
+                {userName}
             </div>
                 
         </Card>

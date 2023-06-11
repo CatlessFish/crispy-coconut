@@ -6,7 +6,7 @@ import Wall from "./pages/Wall/wall";
 import MsgBox from "./pages/MsgBox/msgbox";
 import Profile from "./pages/Profile/profile";
 import Login from "./pages/Profile/login";
-import Message from "./pages/Message/message";
+// import Message from "./pages/Message/message";
 import _Loading from "./pages/Loading/loading";
 import { UserContext } from "./utils/userContext";
 
@@ -68,7 +68,7 @@ function App() {
                                 <Route index path="/home/*" Component={Home} />
                                 <Route path="/wall/*" Component={Wall} />
                                 <Route path="/msgbox/*" Component={MsgBox} />
-                                <Route path="/message/*" Component={Message} />
+                                {/* <Route path="/message/*" Component={Message} /> */}
                                 <Route path="/profile/*" Component={Profile} />
                                 <Route path="/loading/*" Component={_Loading} />
                                 <Route path="" Component={() => <Navigate to={'/home'} />} />
