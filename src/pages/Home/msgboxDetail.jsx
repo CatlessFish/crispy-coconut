@@ -6,7 +6,7 @@ import MsgboxEntryCardinSquare from "../../components/squareEntryCard";
 import MsgboxEntryDetailinSquare from "./msgboxEntryDetail";
 import { UserContext } from "../../utils/userContext";
 import { Route, Routes } from "react-router-dom"
-import { Button, Space, Popup, Input, Card, InfiniteScroll } from 'antd-mobile'
+import { Button, Space, Popup, Input, Card, InfiniteScroll, Checkbox } from 'antd-mobile'
 
 
 
@@ -18,7 +18,7 @@ function MsgboxDetailinSquare (props) {
     const [entries, setEntries] = useState([]);
     const [hasMore, setHasMore] = useState(false);
     const [visibleAdd, setVisibleAdd] = useState(false)
-    let text;
+    let text, isPrivate = false;
 
     useEffect(() => {
         API.msgBoxGetMsgBoxById(user.token, {msgBoxId: msgBoxId}).then(res => {
@@ -44,9 +44,17 @@ function MsgboxDetailinSquare (props) {
         text = event;
     };
 
+    const handleIsPrivateChangeAdd = (event) => {
+        isPrivate = event;
+    };
 
     const handleAdd = () => {
-        API.msgBoxCreateOneEntryInMsgBox(user.token, {msgBoxId: msgbox._id, content:{description: text}}).then( res => {
+        API.msgBoxCreateOneEntryInMsgBox(user.token, {
+            msgBoxId: msgbox._id,
+            content:{description: text}},
+            isPrivate,
+        )
+        .then( res => {
             setEntries([...entries, res.data])
         })
         setVisibleAdd(false)
@@ -83,6 +91,7 @@ function MsgboxDetailinSquare (props) {
                         >
                         <h2>增加一张卡片~</h2>
                         <Input placeholder='请输入内容' onChange={handleInputChangeAdd} clearable />
+                        <Checkbox onChange={handleIsPrivateChangeAdd}>私密提问</Checkbox>
                         <Button onClick={handleAdd}>提交</Button>
                         </Popup>
 

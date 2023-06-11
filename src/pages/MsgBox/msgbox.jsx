@@ -1,6 +1,6 @@
 import React from 'react'
 import { useContext, useEffect, useState } from "react";
-import { Card, Button, InfiniteScroll, Space, Popup, Input, Modal} from 'antd-mobile'
+import { Card, Button, InfiniteScroll, Space, Popup, Input, Modal,} from 'antd-mobile'
 import { Route, Routes  } from "react-router-dom"
 import './msgbox.scss'
 import { UserContext } from "../../utils/userContext";
@@ -102,7 +102,11 @@ function MsgBox () {
       }
 
     const handleAdd = () => {
-        API.msgBoxCreateOneEntryInMsgBox(user.token, {msgBoxId: msgbox._id, content:{description: text}}).then( res => {
+        API.msgBoxCreateOneEntryInMsgBox(user.token, {
+            msgBoxId: msgbox._id,
+            content:{description: text}},
+        )
+        .then( res => {
             setEntries([...entries, res.data])
         })
         setVisibleAdd(false)
@@ -155,9 +159,9 @@ function MsgBox () {
                 minHeight: '40vh',
               }}
             >
-            <h2>增加一张卡片~</h2>
-            <Input placeholder='请输入内容' onChange={handleInputChangeAdd} clearable />
-            <Button onClick={handleAdd}>提交</Button>
+                <h2>增加一张卡片~</h2>
+                <Input placeholder='请输入内容' onChange={handleInputChangeAdd} clearable />
+                <Button onClick={handleAdd}>提交</Button>
             </Popup>
 
             </Space>
