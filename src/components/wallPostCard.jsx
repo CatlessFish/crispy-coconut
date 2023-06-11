@@ -1,7 +1,7 @@
 import { Card, Toast, Button, Modal, Popup, Input } from "antd-mobile";
 import API from "../api/api";
 import "./Card.scss";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../utils/userContext";
 
